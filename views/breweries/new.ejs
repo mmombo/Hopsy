@@ -1,0 +1,21 @@
+<% layout('/layouts/boilerplate'); %>
+
+<h1>Add a new Brewery</h1>
+<form action="/breweries" method="POST">
+    <div>
+        <label for="nameField">Name</label>
+        <input type="text" placeholder="Name" name="name" id='nameField'>
+    </div>
+    <div>
+        <label for="descField">Description</label>
+        <textarea name="description" placeholder="Description" id="descField"></textarea>
+    </div>
+    <div>
+        <label for="locField">Location</label>
+        <input type="text" placeholder="Location" name="location" id="locField">
+    </div>
+    <div>
+        <button>Submit Brewery</button>
+    </div>
+</form>
+<a href="/breweries">Return to All Breweries</a>

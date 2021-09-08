@@ -1,0 +1,27 @@
+<% layout('/layouts/boilerplate'); %>
+
+    <h1>Edit this Brewery</h1>
+    <form action="/breweries/<%= brewery._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="nameField">Name</label>
+            <input type="text" value="<%=brewery.name%>" name="name" id='nameField'>
+        </div>
+        <div>
+            <label for="descField">Description</label>
+            <textarea name="description" value="" id="descField"><%=brewery.description%></textarea>
+        </div>
+        <div>
+            <label for="locField">Location</label>
+            <input type="text" value="<%=brewery.location%>" name="location" id="locField">
+        </div>
+        <div>
+            <button>Submit Brewery</button>
+        </div>
+    </form>
+
+
+
+    <a href="/breweries">Return to All Breweries</a>
+    <form action="/breweries/<%= brewery._id %>?_method=DELETE" method="POST">
+        <button>Delete this Brewery</button>
+    </form>
