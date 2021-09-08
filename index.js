@@ -7,14 +7,14 @@ const methodOverride = require("method-override");
 const morgan = require("morgan");
 const engine = require("ejs-mate");
 
-app.engine('ejs', engine);
+app.engine("ejs", engine);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.static(__dirname + "/static"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
-
 
 mongoose.connect("mongodb://localhost:27017/Yelp-Beer", (err) => {
   if (err) throw err;
@@ -84,8 +84,8 @@ app.delete("/breweries/:id", async (req, res) => {
 });
 
 app.use((req, res) => {
-    res.render("404");
-  });
+  res.render("404");
+});
 
 app.listen(3000, () => {
   console.log("Serving on Port 3000");

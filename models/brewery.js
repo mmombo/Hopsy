@@ -8,7 +8,6 @@ const BrewerySchema = new Schema({
   },
   hasFood: {
     type: Boolean,
-    
   },
   description: {
     type: String,
@@ -18,9 +17,10 @@ const BrewerySchema = new Schema({
     type: String,
     required: true,
   },
+  photoURL: {
+    type: String,
+  },
 });
 
-
-
-const Brewery = mongoose.model('Brewery', BrewerySchema);
+const Brewery = mongoose.model("Brewery", BrewerySchema);
 module.exports = Brewery;

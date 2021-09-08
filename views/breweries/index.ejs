@@ -1,12 +1,11 @@
-
 <% layout('/layouts/boilerplate'); %>
 
-    <h1>All Breweries</h1>
-    <div><a href="/breweries/new">Add a Brewery</a></div>
+<h1>All Breweries</h1>
+<img id="pic" src="flatten.jpg" alt="">
+<div><a href="/breweries/new">Add a Brewery</a></div>
 
-    <ul>
-        <% for (let brewery of breweries) { %>
-        <li><a href="/breweries/<%=brewery._id%>"><%=brewery.name %></a></li>
-        <%} %>
-    </ul>
-
+<ul>
+    <% for (let brewery of breweries) { %>
+    <li><a href="/breweries/<%=brewery._id%>"><%=brewery.name %></a></li>
+    <%} %>
+</ul>

@@ -1,0 +1,18 @@
+
+body {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  background: darkgray;
+}
+h1 {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+}
+h2 {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+}
+#pic {
+  max-width: 40em;
+  max-height: 40em;
+}

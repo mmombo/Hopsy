@@ -1,9 +1,10 @@
 <% layout('/layouts/boilerplate'); %>
 
-    <h1><%=brewery.name%></h1>
-    <h2><%=brewery.description%></h2>
-    <h2><%=brewery.location%></h2>
+<h1 class="roboto"><%=brewery.name%></h1>
+<h2 class="roboto"><%=brewery.location%></h2>
+<img src="<%=brewery.photoURL%>" alt="">
+<p class="roboto"><%=brewery.description%></p>
 
-    <a href="/breweries">Return to All Breweries</a>
-    <a href="/breweries/<%=brewery._id%>/edit">Edit this Brewery</a>
 
+<a href="/breweries" class="roboto">Return to All Breweries</a>
+<a href="/breweries/<%=brewery._id%>/edit" class="roboto">Edit this Brewery</a>
