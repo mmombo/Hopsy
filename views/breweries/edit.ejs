@@ -1,27 +1,42 @@
 <% layout('/layouts/boilerplate'); %>
 
-    <h1>Edit this Brewery</h1>
-    <form action="/breweries/<%= brewery._id %>?_method=PUT" method="POST">
-        <div>
-            <label for="nameField">Name</label>
-            <input type="text" value="<%=brewery.name%>" name="name" id='nameField'>
-        </div>
-        <div>
-            <label for="descField">Description</label>
-            <textarea name="description" value="" id="descField"><%=brewery.description%></textarea>
-        </div>
-        <div>
-            <label for="locField">Location</label>
-            <input type="text" value="<%=brewery.location%>" name="location" id="locField">
-        </div>
-        <div>
-            <button>Submit Brewery</button>
-        </div>
-    </form>
 
 
 
-    <a href="/breweries">Return to All Breweries</a>
-    <form action="/breweries/<%= brewery._id %>?_method=DELETE" method="POST">
-        <button>Delete this Brewery</button>
-    </form>
+<div class="row d-flex justify-content-center align-items-center flex-column">
+
+    <h1 class="text-center">Edit Brewery</h1>
+    <div class="col-lg-6 col-xs-10 col-sm-10 col-md-10">
+        <form action="/breweries/<%=brewery._id%>?_method=PUT" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="nameField">Name</label>
+                <input class="form-control" value="<%=brewery.name%>" type="text" name="name" id='nameField'>
+            </div>
+            <div class="mb-3">
+                <label for="descField" class="form-label">Description</label>
+                <textarea class="form-control" name="description" id='descField'><%=brewery.description%></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="locField" class="form-label">Location</label>
+                <input type="text" class="form-control" name="location" value="<%=brewery.location%>" id="locField">
+            </div>
+            <div class="mb-3">
+                <label for="imgField" class="form-label">Photo URL</label>
+                <input class="form-control" type="text" name="photoURL" id='imgField' value="<%=brewery.photoURL%>">
+            </div>
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <button class="btn btn-success btn2 py-3">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6 col-xs-10 col-sm-10 col-md-10">
+        <form action="/breweries/<%=brewery._id%>?_method=DELETE" method="POST"
+            class="d-flex justify-content-center align-items-center mb-3">
+            <button type="submit" class="btn btn-danger btn2 py-3">Delete this Brewery</button>
+        </form>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <a href="/breweries" class="btn btn-dark mb-3">Return to All Breweries</a>
+    </div>
+</div>
