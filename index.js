@@ -42,7 +42,6 @@ app.get("/breweries/:id/edit", async (req, res) => {
     res.render("breweries/edit", { brewery });
   } catch (e) {
     console.log(e);
-    res.render("404");
   }
 });
 
@@ -52,8 +51,7 @@ app.get("/breweries/:id", async (req, res) => {
     const brewery = await Brewery.findById(id);
     res.render("breweries/show", { brewery });
   } catch (e) {
-    console.log(e);
-    res.render("404");
+    console.log(e);  
   }
 });
 

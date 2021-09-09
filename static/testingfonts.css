@@ -10,13 +10,19 @@ html {
 body {
   font-family: "Merriweather", serif;
   font-weight: 400;
-  background: #000b25;
+
+  background: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%) fixed;
+
   min-height: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 h1 {
   font-family: "Merriweather", serif;
   font-weight: 900;
-  color: white;
+  color: black;
 }
 h2 {
   font-family: "Merriweather", serif;
@@ -48,5 +54,42 @@ h3 {
   background: black;
 }
 .navbar {
-  background: #002171;
+  background: none;
+  border-bottom: 10px black;
+}
+
+#hop {
+  max-width: 50%;
+  max-height: 50%;
+}
+/* 
+#topBar {
+  display: block;
+  width: 100%;
+  min-height: 10%;
+  background: black;
+} */
+
+.navbar .container-fluid .navbar-brand {
+  color: black;
+  font-weight: 900;
+  font-size: 1.8em;
+}
+
+#navbarNav .navbar-nav li a {
+  color: black;
+  font-weight: 700;
+  font-size: 1.6em;
+  font-family: "Nunito Sans";
+}
+
+#brewHeader h1 {
+  font-size: 3em;
+}
+
+#brewHeader {
+  margin: 2% 0 3.2%;
+}
+.ctext1 {
+  color: rgb(224, 224, 224);
 }
