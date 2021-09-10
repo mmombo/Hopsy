@@ -19,6 +19,7 @@ const BrewerySchema = new Schema({
   },
   photoURL: {
     type: String,
+    required: true,
   },
 });
 

@@ -1,18 +1,27 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const Brewery = require("./models/brewery");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const catchAsync = require("./utils/catchAsync");
+const expressError = require("./utils/ExpressError");
 const morgan = require("morgan");
 const engine = require("ejs-mate");
+const ExpressError = require("./utils/ExpressError");
+const { brewerySchema } = require("./schemas.js");
+
+const app = express();
 
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(__dirname + "/static"));
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
 
@@ -27,6 +36,16 @@ db.once("open", () => {
   console.log("Database Connected");
 }).on("error", console.error.bind(console, "Connection Error:"));
 
+const validateBrewery = (req, res, next) => {
+  const { error } = brewerySchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -35,54 +54,71 @@ app.get("/breweries/new", (req, res) => {
   res.render("breweries/new");
 });
 
-app.get("/breweries/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const brewery = await Brewery.findById(id);
-    res.render("breweries/edit", { brewery });
-  } catch (e) {
-    console.log(e);
-  }
-});
+app.get(
+  "/breweries/:id/edit",
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
 
-app.get("/breweries/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
+    const brewery = await Brewery.findById(id);
+    res.render("breweries/edit", {
+      brewery,
+    });
+  })
+);
+
+app.get(
+  "/breweries/:id",
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
     const brewery = await Brewery.findById(id);
     res.render("breweries/show", { brewery });
-  } catch (e) {
-    console.log(e);  
-  }
+  })
+);
+
+app.get(
+  "/breweries",
+  catchAsync(async (req, res) => {
+    const breweries = await Brewery.find({});
+    res.render("breweries/index", {
+      breweries,
+    });
+  })
+);
+// prettier-ignore
+app.post(
+  "/breweries", validateBrewery, catchAsync(async (req, res) => {
+    const newBrew = new Brewery(req.body.brewery);
+    await newBrew.save();
+    res.redirect(`breweries/${newBrew._id}`);
+  })
+);
+// prettier-ignore
+app.put(
+  "/breweries/:id", validateBrewery, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const brewery = await Brewery.findByIdAndUpdate(id, req.body.brewery, {
+      runValidators: true,
+      new: true,
+    });
+    res.redirect(`/breweries/${brewery._id}`);
+  })
+);
+// prettier-ignore
+app.delete("/breweries/:id", catchAsync(async (req, res) => {
+    const { id } = req.params;
+    await Brewery.findByIdAndDelete(id);
+    res.redirect("/breweries");
+  })
+);
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
 });
 
-app.get("/breweries", async (req, res) => {
-  const breweries = await Brewery.find({});
-  res.render("breweries/index.ejs", { breweries });
-});
-
-app.post("/breweries", async (req, res) => {
-  const newBrew = new Brewery(req.body);
-  await newBrew.save();
-  res.redirect(`breweries/${newBrew._id}`);
-});
-
-app.put("/breweries/:id", async (req, res) => {
-  const { id } = req.params;
-  const brewery = await Brewery.findByIdAndUpdate(id, req.body, {
-    runValidators: true,
-    new: true,
-  });
-  res.redirect(`/breweries/${brewery._id}`);
-});
-
-app.delete("/breweries/:id", async (req, res) => {
-  const { id } = req.params;
-  await Brewery.findByIdAndDelete(id);
-  res.redirect("/breweries");
-});
-
-app.use((req, res) => {
-  res.render("404");
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Something went wrong!";
+  res.status(statusCode).render("breweries/error", { err });
 });
 
 app.listen(3000, () => {

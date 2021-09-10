@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Brewery = require("./models/brewery");
+const Brewery = require("../models/brewery");
 
 mongoose.connect("mongodb://localhost:27017/Yelp-Beer", (err) => {
   if (err) throw err;
