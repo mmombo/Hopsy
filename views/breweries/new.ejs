@@ -1,30 +1,42 @@
 <% layout('/layouts/boilerplate'); %>
-<div class="row d-flex justify-content-center align-items-center">
+<div class="row">
 
     <h1 class="text-center">Add a new Brewery</h1>
-    <div class=" col-xl-6 col-lg-7 col-xs-10 col-sm-11 col-md-10">
-        <form action="/breweries" method="POST" novalidate class="validated-form">
-            <div class="mb-3">
-                <label class="form-label" for="nameField">Name</label>
-                <input class="form-control" type="text" name="brewery[name]" id='nameField' required>
+    <div class=" col-xl-6 col-lg-7 col-xs-10 col-sm-11 col-md-10 mb-3 mx-auto">
+        <div class="card bg-dark ctext1 d-flex justify-content-center align-items-center flex-column py-5">
+            <div class=" col-10 ">
+                <form action="/breweries" method="POST" novalidate class="validated-form">
+                    <div class="mb-3">
+                        <label class="form-label" for="nameField">Name</label>
+                        <input class="form-control" type="text" name="brewery[name]" id='nameField' required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descField" class="form-label">Description</label>
+                        <textarea class="form-control" type="text" name="brewery[description]" id='descField'
+                            required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="locField" class="form-label">Location</label>
+                        <input type="text" class="form-control" name="brewery[location]" id="locField" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imgField" class="form-label">Photo URL</label>
+                        <input class="form-control" type="text" name="brewery[photoURL]" id='imgField' required>
+                    </div>
+                    <div class=" d-flex justify-content-center align-items-center">
+                        <button class="btn btn-success btn2 py-3 mt-4">Add Brewery</button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="descField" class="form-label">Description</label>
-                <textarea class="form-control" type="text" name="brewery[description]" id='descField' required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="locField" class="form-label">Location</label>
-                <input type="text" class="form-control" name="brewery[location]" id="locField" required>
-            </div>
-            <div class="mb-3">
-                <label for="imgField" class="form-label">Photo URL</label>
-                <input class="form-control" type="text" name="brewery[photoURL]" id='imgField' required>
-            </div>
-            <div class="mb-3 d-flex justify-content-center align-items-center">
-                <button class="btn btn-success btn2 py-3">Add Brewery</button>
-            </div>
-        </form>
-        <div class="mb-3 d-flex justify-content-center align-items-center">
-            <a href="/breweries" class="btn btn-dark btn2 py-3">Return to All Breweries</a>
         </div>
     </div>
+
+
+</div>
+<div class="row ">
+    <div class="col-8 col-md-4 col-sm-6 col-xs-5 col-lg-4 col-xl-3 col-xxl-2 mx-auto">
+
+        <a href="/breweries" class="btn btn-dark btn1 py-3 px-3 ">Return to All Breweries</a>
+
+    </div>
+</div>

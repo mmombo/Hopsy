@@ -12,13 +12,17 @@ body {
   font-family: "Merriweather", serif;
   font-weight: 400;
 
-  background: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%) fixed;
-
+  /* background: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%) fixed; */
+  background: linear-gradient(147deg, #27f8ff 0%, #ffc60c 74%) fixed;
   min-height: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+body * {
+  opacity: 1;
 }
 h1 {
   font-family: "Merriweather", serif;
@@ -79,9 +83,9 @@ h3 {
 
 #navbarNav .navbar-nav li a {
   color: black;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.6em;
-  font-family: "Roboto";
+  font-family: "Merriweather";
 }
 
 #brewHeader h1 {
@@ -98,4 +102,13 @@ h3 {
   font-family: roboto, sans-serif;
   font-weight: 500;
   letter-spacing: 1px;
+}
+
+label {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  max-width: 25%;
 }

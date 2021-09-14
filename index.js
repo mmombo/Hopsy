@@ -1,14 +1,14 @@
 const express = require("express");
 const path = require("path");
 const Brewery = require("./models/brewery");
+const Review = require("./models/review");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const catchAsync = require("./utils/catchAsync");
-const expressError = require("./utils/ExpressError");
 const morgan = require("morgan");
 const engine = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
-const { brewerySchema } = require("./schemas.js");
+const { brewerySchema, reviewSchema } = require("./schemas.js");
 
 const app = express();
 
@@ -46,6 +46,17 @@ const validateBrewery = (req, res, next) => {
   }
 };
 
+const validateReview = (req, res, next) => {
+  console.log(req.body.review.body);
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -70,7 +81,7 @@ app.get(
   "/breweries/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const brewery = await Brewery.findById(id);
+    const brewery = await Brewery.findById(id).populate("reviews");
     res.render("breweries/show", { brewery });
   })
 );
@@ -110,6 +121,31 @@ app.delete("/breweries/:id", catchAsync(async (req, res) => {
     res.redirect("/breweries");
   })
 );
+
+app.delete(
+  "/breweries/:id/reviews/:reviewId",
+  catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Brewery.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/breweries/${id}`);
+  })
+);
+// prettier-ignore
+app.post("/breweries/:id/reviews", validateReview, catchAsync(async (req, res) => {
+
+    const brewery = await Brewery.findById(req.params.id);
+    const review = new Review(req.body.review);
+
+    brewery.reviews.push(review);
+    await review.save();
+    await brewery.save();
+    
+    res.redirect(`/breweries/${brewery._id}`);
+
+
+  }));
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

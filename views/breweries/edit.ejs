@@ -2,41 +2,49 @@
 
 
 
+<h1 class="text-center">Edit Brewery</h1>
+<div class="col-lg-6 col-xs-10 col-sm-10 col-md-10 mx-auto">
+    <div class="card bg-dark ctext1 p-3">
+        <div class="row d-flex justify-content-center align-items-center flex-column">
 
-<div class="row d-flex justify-content-center align-items-center flex-column">
 
-    <h1 class="text-center">Edit Brewery</h1>
-    <div class="col-lg-6 col-xs-10 col-sm-10 col-md-10">
-        <form action="/breweries/<%=brewery._id%>?_method=PUT" method="POST" novalidate class="validated-form">
-            <div class="mb-3">
-                <label class="form-label" for="nameField">Name</label>
-                <input class="form-control" value="<%=brewery.name%>" type="text" name="brewery[name]" id='nameField' required>
-            </div>
-            <div class="mb-3">
-                <label for="descField" class="form-label">Description</label>
-                <textarea class="form-control" name="brewery[description]" id='descField' required ><%=brewery.description%></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="locField" class="form-label">Location</label>
-                <input type="text" class="form-control" name="brewery[location]" value="<%=brewery.location%>" id="locField" required>
-            </div>
-            <div class="mb-3">
-                <label for="imgField" class="form-label">Photo URL</label>
-                <input class="form-control" type="text" name="brewery[photoURL]" id='imgField' value="<%=brewery.photoURL%>" required>
-            </div>
-            <div class="d-flex justify-content-center align-items-center mb-3">
-                <button class="btn btn-success btn2 py-3">Save Changes</button>
-            </div>
-        </form>
-    </div>
-    <div class="col-lg-6 col-xs-10 col-sm-10 col-md-10">
-        <form action="/breweries/<%=brewery._id%>?_method=DELETE" method="POST"
-            class="d-flex justify-content-center align-items-center mb-3">
-            <button type="submit" class="btn btn-danger btn2 py-3">Delete this Brewery</button>
-        </form>
+
+            <form action="/breweries/<%=brewery._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label class="form-label" for="nameField">Name</label>
+                    <input class="form-control" value="<%=brewery.name%>" type="text" name="brewery[name]"
+                        id='nameField' required>
+                </div>
+                <div class="mb-3">
+                    <label for="descField" class="form-label">Description</label>
+                    <textarea class="form-control" name="brewery[description]" id='descField'
+                        required><%=brewery.description%></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="locField" class="form-label">Location</label>
+                    <input type="text" class="form-control" name="brewery[location]" value="<%=brewery.location%>"
+                        id="locField" required>
+                </div>
+                <div class="mb-3">
+                    <label for="imgField" class="form-label">Photo URL</label>
+                    <input class="form-control" type="text" name="brewery[photoURL]" id='imgField'
+                        value="<%=brewery.photoURL%>" required>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <button class="btn btn-success btn2 py-3">Save Changes</button>
+                </div>
+            </form>
+        </div>
+        <div class="">
+            <form action="/breweries/<%=brewery._id%>?_method=DELETE" method="POST"
+                class="d-flex justify-content-center align-items-center mb-3">
+                <button type="submit" class="btn btn-outline-danger btn2 py-3">Delete this Brewery</button>
+            </form>
+        </div>
     </div>
 
     <div class="d-flex justify-content-center align-items-center">
-        <a href="/breweries" class="btn btn-dark mb-3">Return to All Breweries</a>
+        <a href="/breweries" class="btn btn-dark mt-3 py-3">Return to All Breweries</a>
     </div>
+
 </div>
