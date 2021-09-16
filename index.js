@@ -1,18 +1,23 @@
 const express = require("express");
 const path = require("path");
-const Brewery = require("./models/brewery");
-const Review = require("./models/review");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
-const catchAsync = require("./utils/catchAsync");
 const morgan = require("morgan");
-const engine = require("ejs-mate");
+const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
-const { brewerySchema, reviewSchema } = require("./schemas.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
+
+const breweryRoutes = require("./routes/breweries");
+const reviewRoutes = require("./routes/reviews");
+const userRoutes = require("./routes/users");
 
 const app = express();
 
-app.engine("ejs", engine);
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -25,6 +30,27 @@ app.use(
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
 
+const sessionConfig = {
+  name: "app.sid",
+  secret: "thisshouldbeabettersecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  },
+};
+
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 mongoose.connect("mongodb://localhost:27017/Yelp-Beer", (err) => {
   if (err) throw err;
   //   console.log("connected to MongoDB");
@@ -36,116 +62,21 @@ db.once("open", () => {
   console.log("Database Connected");
 }).on("error", console.error.bind(console, "Connection Error:"));
 
-const validateBrewery = (req, res, next) => {
-  const { error } = brewerySchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.welcome = req.flash("welcome");
+  res.locals.currentUser = req.user;
+  next();
+});
 
-const validateReview = (req, res, next) => {
-  console.log(req.body.review.body);
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+app.use("/breweries", breweryRoutes);
+app.use("/breweries/:id/reviews", reviewRoutes);
+app.use("/login", userRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
 });
-
-app.get("/breweries/new", (req, res) => {
-  res.render("breweries/new");
-});
-
-app.get(
-  "/breweries/:id/edit",
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-
-    const brewery = await Brewery.findById(id);
-    res.render("breweries/edit", {
-      brewery,
-    });
-  })
-);
-
-app.get(
-  "/breweries/:id",
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const brewery = await Brewery.findById(id).populate("reviews");
-    res.render("breweries/show", { brewery });
-  })
-);
-
-app.get(
-  "/breweries",
-  catchAsync(async (req, res) => {
-    const breweries = await Brewery.find({});
-    res.render("breweries/index", {
-      breweries,
-    });
-  })
-);
-// prettier-ignore
-app.post(
-  "/breweries", validateBrewery, catchAsync(async (req, res) => {
-    const newBrew = new Brewery(req.body.brewery);
-    await newBrew.save();
-    res.redirect(`breweries/${newBrew._id}`);
-  })
-);
-// prettier-ignore
-app.put(
-  "/breweries/:id", validateBrewery, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const brewery = await Brewery.findByIdAndUpdate(id, req.body.brewery, {
-      runValidators: true,
-      new: true,
-    });
-    res.redirect(`/breweries/${brewery._id}`);
-  })
-);
-// prettier-ignore
-app.delete("/breweries/:id", catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Brewery.findByIdAndDelete(id);
-    res.redirect("/breweries");
-  })
-);
-
-app.delete(
-  "/breweries/:id/reviews/:reviewId",
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Brewery.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-
-    res.redirect(`/breweries/${id}`);
-  })
-);
-// prettier-ignore
-app.post("/breweries/:id/reviews", validateReview, catchAsync(async (req, res) => {
-
-    const brewery = await Brewery.findById(req.params.id);
-    const review = new Review(req.body.review);
-
-    brewery.reviews.push(review);
-    await review.save();
-    await brewery.save();
-    
-    res.redirect(`/breweries/${brewery._id}`);
-
-
-  }));
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
