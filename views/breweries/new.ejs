@@ -5,7 +5,7 @@
     <div class=" col-xl-6 col-lg-7 col-xs-10 col-sm-11 col-md-10 mb-3 mx-auto">
         <div class="card bg-dark ctext1 d-flex justify-content-center align-items-center flex-column py-5">
             <div class=" col-10 ">
-                <form action="/breweries" method="POST" novalidate class="validated-form">
+                <form action="/breweries" enctype="multipart/form-data" method="POST" novalidate class="validated-form">
                     <div class="mb-3">
                         <label class="form-label" for="nameField">Name</label>
                         <input class="form-control" type="text" name="brewery[name]" id='nameField' required>
@@ -20,9 +20,12 @@
                         <input type="text" class="form-control" name="brewery[location]" id="locField" required>
                     </div>
                     <div class="mb-3">
-
-                        <label for="imgField" class="form-label">Photo URL</label>
-                        <input class="form-control" type="text" name="brewery[photoURL]" id='imgField' required>
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Upload Image(s)</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple name="uploaded_file">
+                        </div>
+                        <!-- <label for="imgField" class="form-label">Photo URL</label>
+                        <input class="form-control" type="text" name="brewery[photoURL]" id='imgField' required> -->
 
                     </div>
                     <div class=" d-flex justify-content-center align-items-center">

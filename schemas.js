@@ -6,8 +6,8 @@ module.exports.brewerySchema = Joi.object({
     hasFood: Joi.boolean(),
     description: Joi.string().required(),
     location: Joi.string().required(),
-    photoURL: Joi.string().required(),
   }).required(),
+  deleteImages: Joi.array(),
 });
 
 module.exports.reviewSchema = Joi.object({

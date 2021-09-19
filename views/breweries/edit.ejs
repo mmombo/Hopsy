@@ -9,7 +9,8 @@
 
 
 
-            <form action="/breweries/<%=brewery._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            <form action="/breweries/<%=brewery._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+                enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for="nameField">Name</label>
                     <input class="form-control" value="<%=brewery.name%>" type="text" name="brewery[name]"
@@ -26,13 +27,33 @@
                         id="locField" required>
                 </div>
                 <div class="mb-3">
-                    <label for="imgField" class="form-label">Photo URL</label>
-                    <input class="form-control" type="text" name="brewery[photoURL]" id='imgField'
-                        value="<%=brewery.photoURL%>" required>
+                    <label for="formFileMultiple" class="form-label">Upload Image(s)</label>
+                    <input class="form-control" type="file" id="formFileMultiple" multiple name="uploaded_file">
+                </div>
+
+
+
+                <div class="mb-3 d-flex flex-wrap flex-row justify-content-center thumb-container">
+                    <% brewery.images.forEach(function(img, i){ %>
+                    <div class="mx-2 mb-3">
+                        <!-- this is here to use the hardcoded urls of the sample data from seeded db -->
+                        <% if (i === 0) {%>
+                        <img src="<%=img.url%>" alt="" class="img-thumbnail d-block">
+                        <% } else { %>
+                        <img src="<%=img.thumb%>" alt="" class="img-thumbnail d-block">
+                        <% } %>
+                        <div class="form-check-inline d-block">
+                            <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+
+                            <label for="image-<%=i%>">Delete?</label>
+                        </div>
+                    </div>
+                    <% }) %>
                 </div>
                 <div class="d-flex justify-content-center align-items-center mb-3">
                     <button class="btn btn-success btn2 py-3">Save Changes</button>
                 </div>
+
             </form>
         </div>
         <div class="">
@@ -44,7 +65,7 @@
     </div>
 
     <div class="d-flex justify-content-center align-items-center">
-        <a href="/breweries" class="btn btn-dark mt-3 py-3">Return to All Breweries</a>
+        <a href="/breweries" class="btn btn-dark my-3 py-3">Return to All Breweries</a>
     </div>
 
 </div>

@@ -11,10 +11,38 @@
         </div>
         <% } %>
 
+
+
+
         <div class="card border-dark text-white bg-dark mb-3">
-            <img src="<%= brewery.photoURL%>" class="card-img-top" alt="...">
+            <div id="breweryCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+
+
+                    <% brewery.images.forEach((image, i) => { %>
+                    <div class="carousel-item show-img-top <%= i === 0 ? 'active' : ''%>">
+                        <img src="<%=image.url%>" class="w-100 d-block carousel-img" alt="">
+                    </div>
+
+                    <% }) %>
+                </div>
+                <% if (brewery.images.length > 1){ %>
+                <button class="carousel-control-prev" type="button" data-bs-target="#breweryCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#breweryCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                <% } %>
+            </div>
+
+
             <div class="card-body">
-                <h5 class="card-title"><%= brewery.name%></h5>
+                <h2 class="card-title"><%= brewery.name%></h2>
                 <p class="text-muted"><%= brewery.location%></p>
                 <p class="card-text"><%= brewery.description%></p>
             </div>

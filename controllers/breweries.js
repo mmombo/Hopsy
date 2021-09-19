@@ -1,4 +1,5 @@
 const Brewery = require("../models/brewery");
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
   delete req.session.returnTo;
@@ -16,12 +17,23 @@ module.exports.updateBrewery = async (req, res) => {
     runValidators: true,
     new: true,
   });
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      cloudinary.uploader.destroy(filename);
+    }
+    await brewery.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
+  }
+
+  const images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  brewery.images.push(...images);
+  await brewery.save();
   res.redirect(`/breweries/${brewery._id}`);
 };
 
 module.exports.createBrewery = async (req, res) => {
   const newBrew = new Brewery(req.body.brewery);
   newBrew.author = req.user._id;
+  newBrew.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   await newBrew.save();
   req.flash("success", "Successfuly Added a New Brewery!");
   res.redirect(`breweries/${newBrew._id}`);
