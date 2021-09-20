@@ -1,5 +1,8 @@
 const Brewery = require("../models/brewery");
 const { cloudinary } = require("../cloudinary");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.index = async (req, res) => {
   delete req.session.returnTo;
@@ -31,10 +34,19 @@ module.exports.updateBrewery = async (req, res) => {
 };
 
 module.exports.createBrewery = async (req, res) => {
+  const geoResponse = await geocoder
+    .forwardGeocode({
+      query: req.body.brewery.location,
+      limit: 1,
+    })
+    .send();
+
   const newBrew = new Brewery(req.body.brewery);
+  newBrew.geometry = geoResponse.body.features[0].geometry;
   newBrew.author = req.user._id;
   newBrew.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   await newBrew.save();
+  console.log(newBrew);
   req.flash("success", "Successfuly Added a New Brewery!");
   res.redirect(`breweries/${newBrew._id}`);
 };

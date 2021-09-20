@@ -13,6 +13,15 @@ ImageSchema.virtual("thumb").get(function () {
 
 const BrewerySchema = new Schema({
   images: [ImageSchema],
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+    },
+    coordinates: {
+      type: [Number],
+    },
+  },
   name: {
     type: String,
     required: true,

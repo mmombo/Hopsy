@@ -14,6 +14,7 @@ body {
 
   /* background: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%) fixed; */
   background: linear-gradient(147deg, #27f8ff 0%, #ffc60c 74%) fixed;
+
   min-height: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -192,6 +193,28 @@ input[type="range"] {
   object-position: center;
 }
 
+#map {
+  width: 100%;
+  height: 300px;
+}
+.card-body-wrap {
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+}
+.card-left {
+  width: 100%;
+}
+.card-right {
+  width: 100%;
+}
+
+.brew-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 @media screen and (max-width: 766px) {
   .index-card {
     height: auto;
@@ -206,6 +229,14 @@ input[type="range"] {
     height: 130px;
     width: 130px;
     object-fit: cover;
+  }
+  #map {
+    height: 200px;
+  }
+
+  .carousel-inner {
+    height: 300px;
+    width: 100%;
   }
 }
 @media screen and (max-width: 349px) {

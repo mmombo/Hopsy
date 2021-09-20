@@ -15,7 +15,7 @@
 
 
         <div class="card border-dark text-white bg-dark mb-3">
-            <div id="breweryCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+            <div id="breweryCarousel" class="carousel slide " data-bs-ride="carousel">
                 <div class="carousel-inner">
 
 
@@ -39,20 +39,30 @@
                 </button>
                 <% } %>
             </div>
+            <div class="card-body-wrap">
+                <div>
+                    <div class="card-body mb-5 mt-2">
+
+                        <div class="d-flex">
+                            <h2 class="card-title"><%= brewery.name%></h2>
+                            <% if(currentUser && brewery.author.equals(currentUser._id)){%>
+                            <div class="ms-auto">
+                                <a class="card-link btn btn-primary" href="/breweries/<%=brewery._id%>/edit">Edit</a>
+                            </div>
+                            <% } %>
+                        </div>
+                        <p class="text-muted"><%= brewery.location%></p>
+                        <p class="card-text"><%= brewery.description%></p>
 
 
-            <div class="card-body">
-                <h2 class="card-title"><%= brewery.name%></h2>
-                <p class="text-muted"><%= brewery.location%></p>
-                <p class="card-text"><%= brewery.description%></p>
-            </div>
-            <% if(currentUser && brewery.author.equals(currentUser._id)){%>
-            <div class="card-body">
-                <a class="card-link btn btn-primary" href="/breweries/<%=brewery._id%>/edit">Edit</a>
-            </div>
-            <% } %>
-            <div class="card-footer text-muted">
-                2 days ago
+                    </div>
+
+
+
+                </div>
+                <div>
+                    <div id='map' class="map"></div>
+                </div>
             </div>
         </div>
 
@@ -140,3 +150,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        mapboxgl.accessToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            center: [-79.3787983, 43.6600073], // starting position [lng, lat]
+            zoom: 11 // starting zoom
+        });
+    </script>
+
+
