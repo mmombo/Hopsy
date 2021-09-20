@@ -1,6 +1,7 @@
 <% layout('/layouts/boilerplate'); %>
 <link rel="stylesheet" href="/css/stars.css">
 
+
 <div class="row d-flex justify-content-center align-items-center mt-3">
     <div class="col-lg-8 col-xxl-6 col-xl-7 col-md-10 col-sm-11 col-xs-12">
 
@@ -44,14 +45,14 @@
                     <div class="card-body mb-5 mt-2">
 
                         <div class="d-flex">
-                            <h2 class="card-title"><%= brewery.name%></h2>
+                            <h2 class="card-title capitalize"><%= brewery.name%></h2>
                             <% if(currentUser && brewery.author.equals(currentUser._id)){%>
                             <div class="ms-auto">
                                 <a class="card-link btn btn-primary" href="/breweries/<%=brewery._id%>/edit">Edit</a>
                             </div>
                             <% } %>
                         </div>
-                        <p class="text-muted"><%= brewery.location%></p>
+                        <p class="text-muted capitalize"><%= brewery.location%></p>
                         <p class="card-text"><%= brewery.description%></p>
 
 
@@ -60,9 +61,11 @@
 
 
                 </div>
+                <% if (brewery.geometry.coordinates[0]) { %>
                 <div>
                     <div id='map' class="map"></div>
                 </div>
+                <% } %>
             </div>
         </div>
 
@@ -151,14 +154,10 @@
         </div>
     </div>
 
+
     <script>
-        mapboxgl.accessToken = '<%-process.env.MAPBOX_TOKEN%>';
-        const map = new mapboxgl.Map({
-            container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
-            center: [-79.3787983, 43.6600073], // starting position [lng, lat]
-            zoom: 11 // starting zoom
-        });
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        let brewery = '<%- JSON.stringify(brewery) %>';
     </script>
 
-
+            <script src="/js/showMap.js"></script>

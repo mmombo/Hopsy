@@ -1,0 +1,59 @@
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1594152032829-a443a4cd7390?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+h1 {
+  color: white;
+}
+h2,
+h3,
+p {
+  color: white;
+  font-family: "Merriweather Sans";
+}
+
+.navbar .container-fluid .navbar-brand {
+  color: white;
+  font-weight: 900;
+  font-size: 1.8em;
+}
+
+#navbarNav .navbar-nav li a {
+  color: white;
+  font-weight: 700;
+  font-size: 1.6em;
+  font-family: "Merriweather";
+  /* border-bottom: 2px solid transparent; */
+  background-clip: padding-box;
+}
+#navbarNav .navbar-nav li .login-button {
+  color: white;
+  font-weight: 700;
+  font-size: 1.2em;
+  font-family: "Merriweather";
+  border: 1px solid white;
+  min-width: 5em;
+}
+#navbarNav .navbar-nav li .login-button:hover,
+.home-button:hover {
+  color: black;
+}
+
+.btn {
+  color: white;
+  border: 1px solid white;
+  font-family: "Merriweather Sans";
+}
+
+.btn:hover {
+  color: black;
+  background: white;
+  border: 1px solid white;
+}
+
+.card {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
+}

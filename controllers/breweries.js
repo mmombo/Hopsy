@@ -15,11 +15,25 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.updateBrewery = async (req, res) => {
+  const geoResponse = await geocoder
+    .forwardGeocode({
+      query: req.body.brewery.location,
+      limit: 1,
+    })
+    .send();
+
   const { id } = req.params;
   const brewery = await Brewery.findByIdAndUpdate(id, req.body.brewery, {
     runValidators: true,
     new: true,
   });
+
+  if (geoResponse.body.features[0]) {
+    brewery.geometry = geoResponse.body.features[0].geometry;
+  } else {
+    req.flash("error", "Could not find that location! Please edit this brewery with a valid location.");
+  }
+
   if (req.body.deleteImages) {
     for (let filename of req.body.deleteImages) {
       cloudinary.uploader.destroy(filename);
@@ -42,7 +56,12 @@ module.exports.createBrewery = async (req, res) => {
     .send();
 
   const newBrew = new Brewery(req.body.brewery);
-  newBrew.geometry = geoResponse.body.features[0].geometry;
+
+  if (geoResponse.body.features[0]) {
+    newBrew.geometry = geoResponse.body.features[0].geometry;
+  } else {
+    req.flash("error", "Could not find that location! Please edit this brewery with a valid location.");
+  }
   newBrew.author = req.user._id;
   newBrew.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   await newBrew.save();

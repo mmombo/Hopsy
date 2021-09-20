@@ -13,20 +13,25 @@ body {
   font-weight: 400;
 
   /* background: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%) fixed; */
-  background: linear-gradient(147deg, #27f8ff 0%, #ffc60c 74%) fixed;
-
-  min-height: 100%;
+  /* background: linear-gradient(147deg, #27f8ff 0%, #ffc60c 74%) fixed; */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1594152032829-a443a4cd7390?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* min-height: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover; */
 }
 
 h1 {
   font-family: "Merriweather", serif;
   font-weight: 900;
   color: black;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  /* text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); */
 }
 h2 {
   font-family: "Merriweather", serif;
@@ -35,6 +40,10 @@ h2 {
 h3 {
   font-family: "Merriweather", serif;
   font-weight: 700;
+}
+p {
+  font-family: "Merriweather Sans";
+  font-weight: 400;
 }
 #pic {
   max-width: 40em;
@@ -55,13 +64,13 @@ h3 {
 }
 
 .btn3 {
-  font-family: roboto, sans-serif;
+  font-family: "Merriweather Sans", sans-serif;
   font-weight: 500;
   letter-spacing: 1px;
 }
 
 .btn4 {
-  font-family: roboto, sans-serif;
+  font-family: "Merriweather Sans", sans-serif;
   font-weight: 500;
   letter-spacing: 1px;
   font-size: 20px;
@@ -109,8 +118,22 @@ h3 {
   border: 3px solid black;
   min-width: 5em;
 }
-#navbarNav .navbar-nav li .login-button:hover {
+
+.home-button {
+  color: #292b2c;
+  font-weight: 700;
+  font-size: 1.2em;
+  font-family: "Merriweather";
+  border: 2px solid #292b2c;
+  min-width: 5em;
+}
+#navbarNav .navbar-nav li a:hover {
+  text-decoration: underline;
+}
+#navbarNav .navbar-nav li .login-button:hover,
+.home-button:hover {
   color: #ffc60c;
+  text-decoration: none;
 }
 
 #brewHeader h1 {
@@ -139,9 +162,6 @@ input[type="range"] {
   min-width: 0;
 }
 
-#navbarNav .navbar-nav li a:hover {
-  text-decoration: underline;
-}
 /* .show-img-top {
   max-width: 100%;
   height: 60vh;
@@ -215,6 +235,24 @@ input[type="range"] {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}
+.welcome {
+  margin-top: 15vh;
+}
+.logotext h1 {
+  font-size: 75px;
+}
+.logotext {
+  margin-top: 13px;
+}
+.hop {
+  width: 100px;
+  height: 100px;
+}
+
 @media screen and (max-width: 766px) {
   .index-card {
     height: auto;
@@ -224,6 +262,7 @@ input[type="range"] {
     height: 45vh;
   }
 }
+
 @media screen and (max-width: 390px) {
   .img-thumbnail {
     height: 130px;
@@ -246,4 +285,62 @@ input[type="range"] {
     object-fit: cover;
   }
 }
-/* imgwrap : height 50vw  @ < 678 */
+
+@media screen and (max-width: 375px) {
+  .hop {
+    width: 75px;
+    height: 75px;
+  }
+  .logotext h1 {
+    font-size: 50px;
+  }
+}
+
+h1,
+h2,
+h3,
+p {
+  color: white;
+}
+
+.navbar .container-fluid .navbar-brand {
+  color: white;
+  font-weight: 900;
+  font-size: 1.8em;
+}
+
+#navbarNav .navbar-nav li a {
+  color: white;
+  font-weight: 700;
+  font-size: 1.6em;
+  font-family: "Merriweather";
+  /* border-bottom: 2px solid transparent; */
+  background-clip: padding-box;
+}
+#navbarNav .navbar-nav li .login-button {
+  color: white;
+  font-weight: 700;
+  font-size: 1.2em;
+  font-family: "Merriweather";
+  border: 1px solid white;
+  min-width: 5em;
+}
+#navbarNav .navbar-nav li .login-button:hover,
+.home-button:hover {
+  color: black;
+}
+
+.btn {
+  color: white;
+  border: 1px solid white;
+}
+
+.btn:hover {
+  color: black;
+  background: white;
+  border: 1px solid white;
+}
+
+.card {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
+}

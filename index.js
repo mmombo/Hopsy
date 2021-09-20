@@ -10,6 +10,7 @@ const morgan = require("morgan");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -18,8 +19,17 @@ const User = require("./models/user");
 const breweryRoutes = require("./routes/breweries");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const app = express();
+
+const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/Yelp-Beer';
+mongoose.connect(dbURL, (err) => {
+  if (err) throw err;
+  //   console.log("connected to MongoDB");
+});
+
+const db = mongoose.connection;
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -33,16 +43,25 @@ app.use(
 );
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(mongoSanitize());
+
+const secret = process.env.SECRET || "thisshouldbeabettersecret!";
 
 const sessionConfig = {
-  name: "app.sid",
-  secret: "thisshouldbeabettersecret",
+  store: MongoStore.create({
+    mongoUrl: dbURL,
+    secret,
+    touchAfter: 24 * 60 * 60,
+  }),
+  name: "session",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
+    httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
   },
 };
 
@@ -54,13 +73,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-mongoose.connect("mongodb://localhost:27017/Yelp-Beer", (err) => {
-  if (err) throw err;
-  //   console.log("connected to MongoDB");
-});
-
-const db = mongoose.connection;
 
 db.once("open", () => {
   console.log("Database Connected");
