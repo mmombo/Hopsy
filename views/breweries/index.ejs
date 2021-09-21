@@ -13,7 +13,11 @@
             <div class="row border-dark index-card">
                 <div class="col-md-4  col-lg-4 col-xl-3" id="imgwrap">
                     <% if (brewery.images[0]) { %>
-                    <img class="" alt="" src="<%=brewery.images[0].url%>">
+                    <img class="brewery-card-img" alt="" src="<%=brewery.images[0].url%>">
+                    <% } else { %>
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                        <img src="/imgs/orangehop.png" alt="" class="default-pic">
+                    </div>
                     <% } %>
                 </div>
                 <div class="col-md-8 col-lg-8 col-xl-9 d-flex">
