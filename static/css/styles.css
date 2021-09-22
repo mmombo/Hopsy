@@ -361,4 +361,7 @@ p {
     align-items: center;
     width: 100%;
   }
+  .navbar .container-fluid .navbar-brand {
+    margin-right: 0;
+  }
 }
