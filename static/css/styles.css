@@ -349,3 +349,16 @@ p {
 .card {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
 }
+
+@media screen and (max-width: 990px) {
+  .login-button {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}

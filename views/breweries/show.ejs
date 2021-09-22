@@ -160,7 +160,7 @@
 
     <script>
         const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-        let brewery = '<%- JSON.stringify(brewery) %>';
+        let breweryGeo = '<%- JSON.stringify(brewery.geometry) %>';
     </script>
 
             <script src="/js/showMap.js"></script>
