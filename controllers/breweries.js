@@ -65,7 +65,7 @@ module.exports.createBrewery = async (req, res) => {
   newBrew.author = req.user._id;
   newBrew.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   await newBrew.save();
-  console.log(newBrew);
+
   req.flash("success", "Successfuly Added a New Brewery!");
   res.redirect(`breweries/${newBrew._id}`);
 };
