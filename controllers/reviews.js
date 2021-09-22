@@ -12,6 +12,8 @@ module.exports.deleteReview = async (req, res) => {
 module.exports.createReview = async (req, res) => {
   const brewery = await Brewery.findById(req.params.id);
   const review = new Review(req.body.review);
+  let today = new Date().toLocaleDateString();
+  review.date = today;
   review.author = req.user._id;
   brewery.reviews.push(review);
   await review.save();

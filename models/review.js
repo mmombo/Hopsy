@@ -6,6 +6,10 @@ const ReviewSchema = new Schema({
     type: Number,
     required: true,
   },
+  date: {
+    type:String,
+    
+  },
   body: {
     type: String,
     required: true,
